@@ -1,7 +1,5 @@
 # Overview
 
-{Important!  Do not say in this section that this is college assignment.  Talk about what you are trying to accomplish as a software engineer to further your learning.}
-
 The data used in this analysis is the daily stock price for Tesla beginning 9/30/2019 and ending 4/11/2022. The dataset can be found [here on Kaggle.com](https://www.kaggle.com/datasets/jillanisofttech/tesla-stock-price)
 
 {Describe your purpose for writing this software to analyze the data.}
