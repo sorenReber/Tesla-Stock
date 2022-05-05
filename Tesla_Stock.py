@@ -1,12 +1,15 @@
 # GDP by Nation by Soren Reber
 
 import tkinter as tk
+from webbrowser import get
+from numpy import average
 import pandas as pd
 import matplotlib.pyplot as mpl
 mpl.close('all')
 def main():
     # Create a dataframe from the imported data
     df = pd.read_csv('TSLA.csv', index_col='Date', parse_dates=['Date'])
+    column_names = ['Date', 'High', 'Low','Close','Volume', 'Adj Close']
     # Display all the rows
     pd.set_option('display.max_rows', 639)
     # Create a window to display the dataframe.
@@ -14,11 +17,11 @@ def main():
     frm_main = tk.Frame(root)
     frm_main.master.title("Tesla Stock October 2019 to April 2022")
     frm_main.pack(padx=10, pady=10, fill=tk.BOTH, expand=0)
-    populate_main_window(frm_main, df)
+    populate_main_window(frm_main, df, column_names)
     
     root.mainloop()
 
-def populate_main_window(frm_main, df):
+def populate_main_window(frm_main, df, column_names):
     # Display the dataframe
     sort_value = tk.StringVar()
     sort_value.set('True')
@@ -28,34 +31,51 @@ def populate_main_window(frm_main, df):
    
 
     # Add a Scroll bar
-    scrollbar = tk.Scrollbar(frm_main, orient='vertical', command=dataframe_viewer.yview)
-    
-    dataframe_viewer['yscrollcommand'] = scrollbar.set
+    data_scrollbar = tk.Scrollbar(frm_main, orient='vertical', command=dataframe_viewer.yview)
+    dataframe_viewer['yscrollcommand'] = data_scrollbar.set
+
+    # Result label for average button
+    lbl_avg_result = tk.Label(frm_main, width=10)
 
     # Text Entry
-    entry_field = tk.Entry(frm_main, width=16)
-    entry_field.insert(tk.END, 'Date')
-    lbl_entry_field = tk.Label(frm_main, text="Sort by:")
+    column_var = tk.StringVar(value=column_names)
+    list_field = tk.Listbox(frm_main, listvariable=column_var, height=6, selectmode=tk.BROWSE)
+
+    # Buttons
     btn_sort = tk.Button(frm_main, text='Sort')
+    btn_plot = tk.Button(frm_main, text='Plot')
+    btn_avg = tk.Button(frm_main, text='Average')
 
     # Radio Buttons
     ascend_true = tk.Radiobutton(frm_main, text= 'Ascending Order', value='True', variable=sort_value)
     ascend_false = tk.Radiobutton(frm_main, text= 'Descending Order', value='False', variable=sort_value)
 
     # Grid Placement
-    dataframe_viewer.grid(row=0, column=1, sticky='ew')
-    scrollbar.grid(row=0, column=2, sticky='ns')
-    lbl_entry_field.grid(row=1, column=2)
-    entry_field.grid(row=1, column=3)
-    btn_sort.grid(row=1, column=4)
-    ascend_true.grid(row=2, column=3)
-    ascend_false.grid(row=2, column=4)
+    dataframe_viewer.grid(row=0, columnspan=5, sticky='ew')
+    data_scrollbar.grid(row=0, column=5, sticky='ns')
+    list_field.grid(rowspan=2, column=0)
+    btn_sort.grid(row=1, column=1)
+    ascend_true.grid(row=1, column=2)
+    ascend_false.grid(row=1, column=3)
+    btn_avg.grid(row=2, column=1)
+    lbl_avg_result.grid(row=2, column=2)
+    btn_plot.grid(row=2, column=3)
+    
+    # List selection function
+    def get_list_selection():
+        get_list_selection = list_field.curselection()
+        if get_list_selection == ():
+            sort_by = column_names[0]
+        else: 
+            sort_by = column_names[get_list_selection[0]]
+        return sort_by
 
     # Sort Button Command
     def sort_by():
-        sort_by = entry_field.get().capitalize()
+        sort_by = get_list_selection()
         sorted_value = sort_value.get()
-        # Switch value back to Boolean
+        # Switch value from string to Boolean. 
+        # Further work could be devoted to making this work without this step.
         if sorted_value == 'True':
             sorted_value = True
         elif sorted_value == 'False':
@@ -66,7 +86,20 @@ def populate_main_window(frm_main, df):
         dataframe_viewer.replace('0.0', tk.END, str(sorted_df))
         dataframe_viewer.config(state=tk.DISABLED)
     
-    # Button Command
+    # Average Command
+    def column_avg():
+        sort_by = get_list_selection()
+        if sort_by == 'Date':
+            average = 'N/A'
+            lbl_avg_result.config(text=average)
+        else:
+            average = df[sort_by].mean()
+            lbl_avg_result.config(text="{:.2f}".format(average))
+
+    # Button Command configuration
     btn_sort.config(command=sort_by)
+    btn_avg.config(command=column_avg)
+
+
 if __name__== '__main__':
     main()
