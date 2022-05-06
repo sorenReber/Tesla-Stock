@@ -14,15 +14,20 @@ The data used in this analysis is the daily stock price for Tesla beginning 9/30
 
 # Development Environment
 
-{Describe the tools that you used to develop the software}
+VS Code
+GitHub
 
-{Describe the programming language that you used and any libraries.}
+Python 3.9.7 64-bit
+Pandas
+Tkinter
+Matplotlib
 
 # Useful Websites
 
-{Make a list of websites that you found helpful in this project}
 * [10 Minutes to Pandas - Official Site](https://pandas.pydata.org/docs/user_guide/10min.html#min)
 * [Getting Started Tutorials - Official Site](https://pandas.pydata.org/docs/getting_started/intro_tutorials/index.html)
+* [Tkinter Listbox Tutorial](https://www.pythontutorial.net/tkinter/tkinter-listbox/)
+* [Exploratory Data Analysis - Kaggle](https://www.kaggle.com/code/kashnitsky/topic-1-exploratory-data-analysis-with-pandas/notebook)
 
 # Future Work
 
