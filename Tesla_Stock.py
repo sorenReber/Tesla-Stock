@@ -1,21 +1,22 @@
 # GDP by Nation by Soren Reber
 
 import tkinter as tk
-from webbrowser import get
-from numpy import average
 import pandas as pd
+from matplotlib.figure import Figure
 import matplotlib.pyplot as mpl
-mpl.close('all')
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+
+
 def main():
     # Create a dataframe from the imported data
     df = pd.read_csv('TSLA.csv', index_col='Date', parse_dates=['Date'])
-    column_names = ['Date', 'High', 'Low','Close','Volume', 'Adj Close']
+    column_names = ['Date', 'High', 'Low', 'Open','Close', 'Volume', 'Adj Close']
     # Display all the rows
     pd.set_option('display.max_rows', 639)
     # Create a window to display the dataframe.
     root = tk.Tk()
     frm_main = tk.Frame(root)
-    frm_main.master.title("Tesla Stock October 2019 to April 2022")
+    frm_main.master.title("Tesla Stock: October 2019 to April 2022")
     frm_main.pack(padx=10, pady=10, fill=tk.BOTH, expand=0)
     populate_main_window(frm_main, df, column_names)
     
@@ -39,7 +40,7 @@ def populate_main_window(frm_main, df, column_names):
 
     # Text Entry
     column_var = tk.StringVar(value=column_names)
-    list_field = tk.Listbox(frm_main, listvariable=column_var, height=6, selectmode=tk.BROWSE)
+    list_field = tk.Listbox(frm_main, listvariable=column_var, height=7, selectmode=tk.BROWSE)
 
     # Buttons
     btn_sort = tk.Button(frm_main, text='Sort')
@@ -65,12 +66,12 @@ def populate_main_window(frm_main, df, column_names):
     def get_list_selection():
         get_list_selection = list_field.curselection()
         if get_list_selection == ():
-            sort_by = column_names[0]
+            column = column_names[0]
         else: 
-            sort_by = column_names[get_list_selection[0]]
-        return sort_by
+            column = column_names[get_list_selection[0]]
+        return column
 
-    # Sort Button Command
+    # Sort futton function
     def sort_by():
         sort_by = get_list_selection()
         sorted_value = sort_value.get()
@@ -86,19 +87,35 @@ def populate_main_window(frm_main, df, column_names):
         dataframe_viewer.replace('0.0', tk.END, str(sorted_df))
         dataframe_viewer.config(state=tk.DISABLED)
     
-    # Average Command
+    # Average function
     def column_avg():
-        sort_by = get_list_selection()
-        if sort_by == 'Date':
+        column_to_avg = get_list_selection()
+        if column_to_avg == 'Date':
             average = 'N/A'
             lbl_avg_result.config(text=average)
         else:
-            average = df[sort_by].mean()
+            average = df[column_to_avg].mean()
             lbl_avg_result.config(text="{:.2f}".format(average))
 
+    # Plot function
+    def create_plot():
+        column_to_plot = get_list_selection()
+        fig=Figure(figsize=(10,4)) 
+        a= fig.add_subplot(111)
+        if column_to_plot == 'Date':
+            df[column_names[1]].plot(ax=a)
+            canvas=FigureCanvasTkAgg(fig, frm_main)
+            canvas.get_tk_widget().grid(row=0, column=7, columnspan=7)
+        else:
+            df[column_to_plot].plot(ax=a)
+            canvas=FigureCanvasTkAgg(fig, frm_main)
+            canvas.get_tk_widget().grid(row=0, column=7, columnspan=7)
+
+    
     # Button Command configuration
     btn_sort.config(command=sort_by)
     btn_avg.config(command=column_avg)
+    btn_plot.config(command=create_plot)
 
 
 if __name__== '__main__':
