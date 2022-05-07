@@ -6,7 +6,6 @@ from matplotlib.figure import Figure
 import matplotlib.pyplot as mpl
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
-
 def main():
     # Create a dataframe from the imported data
     df = pd.read_csv('TSLA.csv', index_col='Date', parse_dates=['Date'])
@@ -29,14 +28,14 @@ def populate_main_window(frm_main, df, column_names):
     dataframe_viewer = tk.Text(frm_main, width=90)
     dataframe_viewer.insert(tk.END, str(df))
     dataframe_viewer.config(state=tk.DISABLED)
-   
 
     # Add a Scroll bar
     data_scrollbar = tk.Scrollbar(frm_main, orient='vertical', command=dataframe_viewer.yview)
     dataframe_viewer['yscrollcommand'] = data_scrollbar.set
 
-    # Result label for average button
-    lbl_avg_result = tk.Label(frm_main, width=10)
+    # Result label for average button and min/max
+    lbl_avg_result = tk.Label(frm_main, width=16)
+    lbl_min_max = tk.Label(frm_main, width=20, height= 3, )
 
     # Text Entry
     column_var = tk.StringVar(value=column_names)
@@ -46,6 +45,7 @@ def populate_main_window(frm_main, df, column_names):
     btn_sort = tk.Button(frm_main, text='Sort')
     btn_plot = tk.Button(frm_main, text='Plot')
     btn_avg = tk.Button(frm_main, text='Average')
+    btn_min_max = tk.Button(frm_main, text='Min/Max')
 
     # Radio Buttons
     ascend_true = tk.Radiobutton(frm_main, text= 'Ascending Order', value='True', variable=sort_value)
@@ -54,12 +54,14 @@ def populate_main_window(frm_main, df, column_names):
     # Grid Placement
     dataframe_viewer.grid(row=0, columnspan=5, sticky='ew')
     data_scrollbar.grid(row=0, column=5, sticky='ns')
-    list_field.grid(rowspan=2, column=0)
+    list_field.grid(row=1, rowspan=2, column=0)
     btn_sort.grid(row=1, column=1)
     ascend_true.grid(row=1, column=2)
-    ascend_false.grid(row=1, column=3)
-    btn_avg.grid(row=2, column=1)
-    lbl_avg_result.grid(row=2, column=2)
+    ascend_false.grid(row=1, column=3) 
+    btn_min_max.grid(row=2, column=1)
+    lbl_min_max.grid(row=2, column=2)
+    btn_avg.grid(row=3, column=1)
+    lbl_avg_result.grid(row=3, column=2)
     btn_plot.grid(row=2, column=3)
     
     # List selection function
@@ -72,7 +74,7 @@ def populate_main_window(frm_main, df, column_names):
         return column
 
     # Sort futton function
-    def sort_by():
+    def sort_by_column():
         sort_by = get_list_selection()
         sorted_value = sort_value.get()
         # Switch value from string to Boolean. 
@@ -95,12 +97,12 @@ def populate_main_window(frm_main, df, column_names):
             lbl_avg_result.config(text=average)
         else:
             average = df[column_to_avg].mean()
-            lbl_avg_result.config(text="{:.2f}".format(average))
+            lbl_avg_result.config(text='Average: '+ "{:.2f}".format(average))
 
     # Plot function
     def create_plot():
         column_to_plot = get_list_selection()
-        fig=Figure(figsize=(10,4)) 
+        fig=Figure(figsize=(10,3.85)) 
         a= fig.add_subplot(111)
         if column_to_plot == 'Date':
             df[column_names[1]].plot(ax=a)
@@ -110,12 +112,24 @@ def populate_main_window(frm_main, df, column_names):
             df[column_to_plot].plot(ax=a)
             canvas=FigureCanvasTkAgg(fig, frm_main)
             canvas.get_tk_widget().grid(row=0, column=7, columnspan=7)
-
+    
+    # Min/Max function
+    def min_max():
+        column_to_calc = get_list_selection()
+        if column_to_calc == 'Date':
+            column_min = 'N/A'
+            lbl_avg_result.config(text=column_min)
+        else:
+            column_min = df[column_to_calc].min()
+            column_max = df[column_to_calc].max()
+            lbl_min_max.config(text='Minimum: '+ "{:.2f}".format(column_min) + 
+                '\nMaximum: ' + "{:.2f}".format(column_max))
     
     # Button Command configuration
-    btn_sort.config(command=sort_by)
+    btn_sort.config(command=sort_by_column)
     btn_avg.config(command=column_avg)
     btn_plot.config(command=create_plot)
+    btn_min_max.config(command=min_max)
 
 
 if __name__== '__main__':
