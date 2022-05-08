@@ -2,7 +2,7 @@
 
 The data used in this analysis is the daily stock price for Tesla beginning 9/30/2019 and ending 4/11/2022. The dataset can be found [here on Kaggle.com](https://www.kaggle.com/datasets/jillanisofttech/tesla-stock-price)
 
-I wanted to create a program to analyze the Tesla stock price. I wanted it to be able to run independent of other programs like a web browser. Because of this I stayed away from Pandas ability to export and display the dataframe in HTML. I created my own GUI using tkinter to display the data and to be able to answer some basic analysis.
+I wanted to create a program to analyze the Tesla stock price. I wanted it to be able to run independent of other programs like a web browser. Because of this I did not use the Pandas library's ability to export and display the dataframe in HTML. I created my own GUI using tkinter to display the data and to be able to answer some basic analysis. It also seemed more fun while being good practice for tkinter too!
 
 {Provide a link to your YouTube demonstration.  It should be a 4-5 minute demo of the data set, the questions and answers, the code running and a walkthrough of the code.}
 
@@ -34,7 +34,6 @@ I wanted to create a program to analyze the Tesla stock price. I wanted it to be
 
 # Future Work
 
-{Make a list of things that you need to fix, improve, and add in the future.}
 * Future add: The ability to show a second plot that will more easily allow for comparisons.
 * Fix/Improve: There is a clunky part of the code where I had to convert strings of True and False to boolean type for the sorting purposes. This was because tkinter was giving me issues when trying to use booleans for the radio buttons. Using strings worked but I would like to be able to take out that conversion.
 * Improve: I would like the column names to be above the displayed dataframe, that way when scrolling through the dataframe the column names are still visible. Getting them to line up would be the tricky part and so for now I left it as is.
