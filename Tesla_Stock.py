@@ -105,11 +105,11 @@ def populate_main_window(frm_main, df, column_names):
         fig=Figure(figsize=(10,3.85)) 
         a= fig.add_subplot(111)
         if column_to_plot == 'Date':
-            df[column_names[1]].plot(ax=a)
+            df[column_names[1]].plot(ax=a, title= column_names[1] + " Graph")
             canvas=FigureCanvasTkAgg(fig, frm_main)
             canvas.get_tk_widget().grid(row=0, column=7, columnspan=7)
         else:
-            df[column_to_plot].plot(ax=a)
+            df[column_to_plot].plot(ax=a, title= column_to_plot + " Graph")
             canvas=FigureCanvasTkAgg(fig, frm_main)
             canvas.get_tk_widget().grid(row=0, column=7, columnspan=7)
     
