@@ -2,7 +2,7 @@
 
 The data used in this analysis is the daily stock price for Tesla beginning 9/30/2019 and ending 4/11/2022. The dataset can be found [here on Kaggle.com](https://www.kaggle.com/datasets/jillanisofttech/tesla-stock-price)
 
-I wanted to create a program to analyze the Tesla stock price. I wanted it to be able to run independent of other programs like a web browser. Because of this I did not use the Pandas library's ability to export and display the dataframe in HTML. I created my own GUI using tkinter to display the data and to be able to answer some basic analysis. It also seemed more fun while being good practice for tkinter too!
+I wanted to create a program to analyze the Tesla stock price. I wanted it to be able to run independent of other programs like a web browser. Because of this I did not use the Pandas library's ability to export and display the dataframe in HTML. I created my own GUI using tkinter to display the data and to be able to answer some basic analysis. It also seemed more fun and customisable while being a good way to learn tkinter too!
 
 {Provide a link to your YouTube demonstration.  It should be a 4-5 minute demo of the data set, the questions and answers, the code running and a walkthrough of the code.}
 
