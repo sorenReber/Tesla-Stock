@@ -31,6 +31,10 @@ I wanted to create a program to analyze the Tesla stock price. I wanted it to be
 * [Getting Started Tutorials - Official Site](https://pandas.pydata.org/docs/getting_started/intro_tutorials/index.html)
 * [Tkinter Listbox Tutorial](https://www.pythontutorial.net/tkinter/tkinter-listbox/)
 * [Exploratory Data Analysis - Kaggle](https://www.kaggle.com/code/kashnitsky/topic-1-exploratory-data-analysis-with-pandas/notebook)
+* [Pandas Tutorial Playlist by Corey Schafer- Youtube](https://www.youtube.com/playlist?list=PL-osiE80TeTsWmV9i9c58mdDCSskIFdDS)
+* [Pandas Overview by Edureka - Youtube](https://www.youtube.com/watch?v=B42n3Pc-N2A)
+* [Pandas Overview and Tutorial by Keith Galli - Youtube](https://www.youtube.com/watch?v=vmEHCJofslg)
+* [Tkinter Tutorial Playlist by Codemy.com - Youtube](https://www.youtube.com/playlist?list=PLCC34OHNcOtoC6GglhF3ncJ5rLwQrLGnV)
 
 # Future Work
 
